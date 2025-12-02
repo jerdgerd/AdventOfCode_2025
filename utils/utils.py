@@ -37,6 +37,13 @@ class Utils:
 
             return rotations
 
+    class IdCheckerParser:
+
+        @staticmethod
+        def parseRanges(input_text):
+            parsed_ranges = Utils.ArrayParser.parse_to_array(input_text, delimiter=',', trim=True)[0]
+            return [tuple(int(x) for x in parsed_ranges[i].split('-')) for i in range(len(parsed_ranges))]
+
     class Runner:
 
         @staticmethod
