@@ -44,6 +44,14 @@ class Utils:
             parsed_ranges = Utils.ArrayParser.parse_to_array(input_text, delimiter=',', trim=True)[0]
             return [tuple(int(x) for x in parsed_ranges[i].split('-')) for i in range(len(parsed_ranges))]
 
+    class BatteryParser:
+
+        @staticmethod
+        def parseBatteryArrays(input_text):
+            lines = Utils.ArrayParser.parse_lines(input_text)
+            arrays = [[int(digit) for digit in line] for line in lines]
+            return arrays
+
     class Runner:
 
         @staticmethod
