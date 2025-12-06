@@ -185,3 +185,106 @@ class Utils:
                 import traceback
                 traceback.print_exc()
                 sys.exit(1)
+
+    class IngredientParser:
+
+        @staticmethod
+        def parse_ingredient_database(input_text):
+            sections = input_text.strip().split('\n\n')
+
+            fresh_ranges = []
+            range_lines = sections[0].strip().split('\n')
+            for line in range_lines:
+                start, end = line.split('-')
+                fresh_ranges.append((int(start), int(end)))
+
+            available_ingredients = []
+            ingredient_lines = sections[1].strip().split('\n')
+            for line in ingredient_lines:
+                available_ingredients.append(int(line.strip()))
+
+            return fresh_ranges, available_ingredients
+
+        def parse_fresh_array(input_text):
+            sections = input_text.strip().split('\n\n')
+
+            fresh_ranges = []
+            range_lines = sections[0].strip().split('\n')
+            for line in range_lines:
+                start, end = line.split('-')
+                fresh_ranges.append((int(start), int(end)))
+
+            return fresh_ranges
+
+    class ProblemParser:
+
+        def parse_problems(input_text):
+            sections = input_text.strip().split("\n")
+            new_sections = []
+
+            for section in sections:
+                new_sections.append(section.split(" "))
+                i = 0
+                n = len(new_sections[-1])
+                while i < n:
+                    if new_sections[-1][i].strip() == "":
+                        new_sections[-1].pop(i)
+                        n -= 1
+                    else:
+                        i += 1
+
+            numbers = [[] for i in range(len(new_sections[0]))]
+            for i in range(len(new_sections) - 1):
+                section = new_sections[i]
+                for j in range(len(section)):
+                    numbers[j].append(int(section[j]))
+
+            return numbers, new_sections[-1]
+
+        def parse_cephalopod_problems(input_text):
+            lines = input_text.strip().split("\n")
+
+            max_length = max(len(line) for line in lines)
+
+            padded_lines = [line.ljust(max_length) for line in lines]
+
+            columns = []
+            for i in range(max_length):
+                column = ''.join(padded_lines[j][i] for j in range(len(padded_lines)))
+                columns.append(column)
+
+            problems = []
+            current_problem = []
+
+            for column in columns:
+                if column.strip() == '':
+                    if current_problem:
+                        problems.append(current_problem)
+                        current_problem = []
+                else:
+                    current_problem.append(column)
+
+            if current_problem:
+                problems.append(current_problem)
+
+            numbers_lists = []
+            operators_lists = []
+            for problem in problems:
+                numbers = []
+                for col in problem:
+                    if '*' in col:
+                        operator = '*'
+                        col.replace("*", '')
+                    elif '+' in col:
+                        operator = '+'
+                        col.replace("+", '')
+                    digits = ''.join(c for c in col if c.strip() and c.isdigit())
+                    if digits:
+                        numbers.append(int(digits))
+
+                numbers.reverse()
+
+                numbers_lists.append(numbers)
+                operators_lists.append(operator)
+
+            return numbers_lists, operators_lists
