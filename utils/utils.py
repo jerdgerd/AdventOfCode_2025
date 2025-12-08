@@ -36,10 +36,19 @@ class Grid:
                     positions.append((r, c))
         return positions
 
-    def remove_positions(self, positions):
+    def remove_positions(self, positions, replacement = '.'):
         for r, c in positions:
             if self.is_valid_position(r, c):
-                self.data[r][c] = '.'
+                self.data[r][c] = replacement
+
+    def print(self):
+        print("\n" + "=" * (self.cols + 2))
+        for r in range(self.rows):
+            row_str = ""
+            for c in range(self.cols):
+                row_str += self.data[r][c]
+            print(row_str)
+        print("=" * (self.cols + 2) + "\n")
 
 
 
@@ -288,3 +297,12 @@ class Utils:
                 operators_lists.append(operator)
 
             return numbers_lists, operators_lists
+
+    class TachyonParser:
+        def parse_manifold(input_text):
+            return Utils.GridParser.parse_grid(input_text)
+
+        def find_start(grid):
+            positions = grid.find_all('S')
+            return positions[0] if positions else None
+
