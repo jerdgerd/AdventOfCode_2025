@@ -306,3 +306,18 @@ class Utils:
             positions = grid.find_all('S')
             return positions[0] if positions else None
 
+    class JunctionParser:
+        def parse_junctions(input_text):
+            lines = input_text.splitlines()
+
+            junction_boxes = []
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+
+                parts = [p.strip() for p in line.split(",")]
+                junction_boxes.append(tuple(int(p) for p in parts))
+
+            return junction_boxes
+
